@@ -16,37 +16,17 @@ class Bot(Agent):
             self.model.grid.move_agent(self, new_position)
             self.current_step += 1
 
-class Box(Agent):
-    def __init__(self, unique_id, model):
-        super().__init__(unique_id, model)
-
-class Goal(Agent):
-    def __init__(self, unique_id, model):
-        super().__init__(unique_id, model)
-
-class Pared(Agent):
-    def __init__(self, unique_id, model):
-        super().__init__(unique_id, model)
-
-class Camion(Agent):
-    def __init__(self, unique_id, model):
-        super().__init__(unique_id, model)
-
-class Bateria(Agent):
-    def __init__(self, unique_id, model):
-        super().__init__(unique_id, model)
-
 class Environment(Model):
     DEFAULT_MODEL_DESC = [
         'PPPPPPPPPPPPPPPPPPPP',
         'PPPPFFFFFFFFFFFFFFFP',
-        'PPPPFFFFFFFFFFGFFFFP',
+        'PPPPFFFFFFFFFFFFFFFP',
         'PPPPFFFFBBBBBBBBBFFP',
         'PPPPXFFFBBBBBBBBBFFP',
         'PPPPXFFFFFFFFFFFFFFP',
         'PPPPXFFFFFFFFFFFFFFP',
         'PXXXFFFFFBBBBBBBBFFP',
-        'P1FFFFFFFBBBBBBBBFFP',
+        'PFFFFFFFFBBBBBBBBFFP',
         'PFFFFFFFFFFFFFFFFFFP',
         'PFFFFFFFFFFFFFFFFFFP',
         'PFFFFFFFFFFBBBBBBFFP',
@@ -75,7 +55,7 @@ class Environment(Model):
     def build_environment(self):
         for x in range(self.width):
             for y in range(self.height):
-                cell_type = self.DEFAULT_MODEL_DESC[y][x]
+                cell_type = self.DEFAULT_MODEL_DESC[-y-1][x]
                 if cell_type == 'P':
                     self.grid.place_agent(Pared(f"P-{x}-{y}", self), (x, y))
                 elif cell_type == 'B':
@@ -84,7 +64,7 @@ class Environment(Model):
                     self.grid.place_agent(Goal(f"G-{x}-{y}", self), (x, y))
                 elif cell_type == 'C':
                     self.grid.place_agent(Camion(f"C-{x}-{y}", self), (x, y))
-                elif cell_type == 'F':
+                elif cell_type == 'X':
                     self.grid.place_agent(Bateria(f"F-{x}-{y}", self), (x, y))
 
     def create_bots(self):
@@ -102,3 +82,24 @@ class Environment(Model):
 
     def step(self):
         self.schedule.step()
+        
+        
+class Box(Agent):
+    def __init__(self, unique_id, model):
+        super().__init__(unique_id, model)
+
+class Goal(Agent):
+    def __init__(self, unique_id, model):
+        super().__init__(unique_id, model)
+
+class Pared(Agent):
+    def __init__(self, unique_id, model):
+        super().__init__(unique_id, model)
+
+class Camion(Agent):
+    def __init__(self, unique_id, model):
+        super().__init__(unique_id, model)
+
+class Bateria(Agent):
+    def __init__(self, unique_id, model):
+        super().__init__(unique_id, model)
