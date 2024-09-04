@@ -5,7 +5,7 @@ from mesa.visualization.modules import CanvasGrid
 from mesa.visualization.ModularVisualization import ModularServer
 from model import Environment
 
-BOT_COLORS = ["red", "blue", "green", "purple"]  # Definir colores para los bots
+BOT_COLORS = ["red", "blue", "green", "purple", "Darksalmon", "Khaki"]  # Definir colores para los bots
 
 def agent_portrayal(agent):
     if isinstance(agent, Bot):
@@ -31,14 +31,21 @@ def agent_portrayal(agent):
                 "Color": "white", "text": ""}
 
 # Define paths for the bots to follow (example paths)
+    # Rutas de Bots que se mueven hacia estante
 shelf_paths = [
-    [(1, 1), (2, 2), (3, 3)],
-    [(1, 2), (2, 3), (3, 4)]
+    [(5, 15), (6, 15), (6, 16)],
+    [(5, 14), (6, 14), (6, 13)],
+    [(5, 13), (6, 14), (6, 13)]
+    #[(1, 1), (2, 2), (3, 3)],
+    #[(1, 2), (2, 3), (3, 4)]
 ]
-
+    # Rutas de Bots que se mueven hacia las bandas transportadoras
 belt_paths = [
-    [(1, 8), (2, 8), (3, 8)],
-    [(1, 9), (2, 9), (3, 9)]
+    [(1, 11), (1, 10), (1, 9)],
+    [(2, 11), (2, 10), (2, 9)],
+    [(3, 11), (3, 11), (2, 11)]
+    #[(1, 8), (2, 8), (3, 8)], 
+    #[(1, 9), (2, 9), (3, 9)]
 ]
 
 grid = mesa.visualization.CanvasGrid(
