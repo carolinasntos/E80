@@ -3,14 +3,30 @@ from model import Environment, Bot, Box, Goal, Pared, Camion, Bateria
 
 from mesa.visualization.modules import CanvasGrid
 from mesa.visualization.ModularVisualization import ModularServer
-from model import Environment
 
-BOT_COLORS = ["red", "blue", "green", "purple", "Darksalmon", "Khaki"]  # Definir colores para los bots
+# Definir colores específicos para los bots según su tipo de ruta
+SHELF_COLOR = "blue"   # Color para los robots con rutas shelf_paths
+BELT_COLOR = "green"   # Color para los robots con rutas belt_paths
 
 def agent_portrayal(agent):
     if isinstance(agent, Bot):
-        return {"Shape": "circle", "Filled": "false", "Color": BOT_COLORS[agent.unique_id - 1], "Layer": 1, "r": 1.0,
-                "text": "🤖", "text_color": "black"}
+        # Asigna color según el tipo de ruta que sigue el robot
+        if agent.role == "shelf":
+            color = SHELF_COLOR
+        elif agent.role == "belt":
+            color = BELT_COLOR
+        else:
+            color = "black"  # Color predeterminado si no tiene rol
+        
+        return {
+            "Shape": "circle", 
+            "Filled": "false", 
+            "Color": color, 
+            "Layer": 1, 
+            "r": 1.0,
+            "text": "🤖", 
+            "text_color": "black"
+        }
     elif isinstance(agent, Box):
         return {"Shape": "rect", "Filled": "true", "Layer": 0, "w": 0.9, "h": 0.9, "text_color": "Black",
                 "Color": "moccasin", "text": "📦"}
@@ -31,8 +47,17 @@ def agent_portrayal(agent):
                 "Color": "white", "text": ""}
 
 # Define paths for the bots to follow (example paths)
-    # Rutas de Bots que se mueven hacia estante
+
 shelf_paths = [
+    [(5, 15), (5, 17), (16, 17),
+     (5, 17), (5, 11), (4, 11), (4, 11), (4, 8), (2, 8)], #Rojo
+    
+    [(5, 14), (6, 14), (6, 13),(16, 13),
+     (5, 17), (5, 13), (5, 8), (5, 9), (1, 9), (1, 8)], #Azul
+    
+    [(5, 13), (5, 9), (8, 9), (8, 2), (16, 2),
+     (8, 2), (8, 8), (5, 8), (5, 9), (1, 9), (1, 8)]  #Verde
+
     [(5, 15), (5, 17), (16, 17),
      (5, 17), (5, 11), (4, 11), (4, 11), (4, 8)], #Rojo
     
@@ -41,6 +66,7 @@ shelf_paths = [
     
     [(5, 13), (5, 9), (8, 9), (8, 2), (16, 2),
      (8, 2), (8, 8), (5, 8)]  #Verde
+
     
 ]
     # Rutas de Bots que se mueven hacia las bandas transportadoras
@@ -53,17 +79,25 @@ belt_paths = [
     
     [(3, 11), (2, 11), (2, 8), (3, 8), (3, 10), (16, 10),
      (1, 10), (1, 8)] #Amarillo
-
 ]
 
-grid = mesa.visualization.CanvasGrid(
-    agent_portrayal, 20, 20, 700, 600)
+# Definir ubicaciones iniciales para los robots
+initial_positions = [
+    (4, 15),  # Robot 1 (shelf_paths)
+    (4, 14),  # Robot 2 (shelf_paths)
+    (4, 13),  # Robot 3 (shelf_paths)
+    (3, 12),  # Robot 4 (belt_paths)
+    (2, 12),   # Robot 5 (belt_paths)
+    (1, 12)    # Robot 6 (belt_paths)
+]
+
+grid = mesa.visualization.CanvasGrid(agent_portrayal, 20, 20, 700, 600)
 
 server = ModularServer(
     Environment,
     [grid],
     "Warehouse Robots",
-    {"width": 20, "height": 20, "shelf_paths": shelf_paths, "belt_paths": belt_paths}
+    {"width": 20, "height": 20, "shelf_paths": shelf_paths, "belt_paths": belt_paths, "initial_positions": initial_positions}
 )
 
 server.port = 8521
