@@ -34,13 +34,13 @@ def agent_portrayal(agent):
     # Rutas de Bots que se mueven hacia estante
 shelf_paths = [
     [(5, 15), (5, 17), (16, 17),
-     (5, 17), (5, 11), (4, 11), (4, 11), (4, 8), (2, 8)], #Rojo
+     (5, 17), (5, 11), (4, 11), (4, 11), (4, 8)], #Rojo
     
     [(5, 14), (6, 14), (6, 13),(16, 13),
-     (5, 17), (5, 13), (5, 8), (5, 9), (1, 9), (1, 8)], #Azul
+     (5, 17), (5, 13), (5, 8)], #Azul
     
     [(5, 13), (5, 9), (8, 9), (8, 2), (16, 2),
-     (8, 2), (8, 8), (5, 8), (5, 9), (1, 9), (1, 8)]  #Verde
+     (8, 2), (8, 8), (5, 8)]  #Verde
     
 ]
     # Rutas de Bots que se mueven hacia las bandas transportadoras
