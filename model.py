@@ -10,6 +10,12 @@ class CentralSystem:
     def __init__(self, model):
         self.model = model
         self.robot_data = {}  # Para almacenar datos de los robots
+        
+        self.total_boxes_manipulated = 0  # Total de cajas manipuladas
+        self.boxes_stored = 0  # Cajas almacenadas
+        self.boxes_dispatched = 0  # Cajas despachadas
+        # Colas circulares para las rutas adicionales
+        
         # Colas circulares para las rutas adicionales
         self.shelf_paths_queue = list(model.shelf_paths)
         self.belt_paths_queue = list(model.belt_paths)
@@ -266,7 +272,7 @@ class Environment(Model):
         self.initial_shelf_routes = initial_shelf_routes
         self.initial_belt_routes = initial_belt_routes
         self.current_step = 0
-        self.max_steps = 100  # Limitar la simulación a 100 pasos
+        self.max_steps = 75  # Limitar la simulación a 100 pasos
 
         self.central_system = CentralSystem(self)
 
